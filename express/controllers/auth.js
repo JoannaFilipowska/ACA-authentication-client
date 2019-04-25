@@ -10,7 +10,13 @@ const SignUp = ({ userName, password }) => {
 
 const Login = ({ userName, password }) => {
   // contents of login function
+  if (!userName || !password) return Promise.reject('username and password are required!')
+  const hash = crypto.createHash('md5').update(password).digest("hex")
+  return AuthModel.findOne({ userName, password: hash })
 }
+
+//In the controller, use the `AuthModel` to `findOne` user by it's `userName` and `password`. Remember to hash the password first.
+
 
 module.exports = {
   SignUp,
